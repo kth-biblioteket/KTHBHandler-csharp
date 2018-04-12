@@ -3,20 +3,18 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System;
 using System.Data;
+using System.Configuration;
 
 namespace KTHBHandler
 {
     /*******************
-    Klass för databashantering
- 
-    *******************/
+     * 
+     * Klass för databashantering
+     * 
+     * *******************/
     class DBConnect
     {
         private MySqlConnection connection;
-        private string server;
-        private string database;
-        private string uid;
-        private string password;
         EventLog myLog = new EventLog();
         public DBConnect()
         {
@@ -25,15 +23,11 @@ namespace KTHBHandler
         
         private void Initialize()
         {
+            var config= ConfigurationManager.ConnectionStrings["DefaultConnection"];
+            string connString = config.ConnectionString;
+
             myLog.Source = "KTHB Handler";
-            server = "apps.lib.kth.se";
-            database = "tasks";
-            uid = "tasks";
-            password = "xxxxxxxxxxxx";
-            string connectionString;
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
-            connection = new MySqlConnection(connectionString);
+            connection = new MySqlConnection(connString);
         }
         
         private bool OpenConnection()
