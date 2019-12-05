@@ -35,6 +35,7 @@ namespace KTHBHandler
         string appsrootfolder = "";
         int handlerinterval = 0;
         string handlerurl = "";
+        string token = "";
         public KTHBHandler()
         {
             InitializeComponent();
@@ -55,6 +56,7 @@ namespace KTHBHandler
             appsrootfolder = conn.GetSystemSetting("webrootfolder");
             handlerinterval = Int32.Parse(conn.GetSystemSetting("handlerinterval"));
             handlerurl = conn.GetSystemSetting("handlerurl");
+            token = conn.GetSystemSetting("token");
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = handlerinterval; // millisekunder
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
@@ -76,7 +78,7 @@ namespace KTHBHandler
             try
             {
                 //Kör PHP-script
-                runWS(handlerurl);
+                runWS(handlerurl + "?token=" + token);
             }
             catch (Exception e)
             {
